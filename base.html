@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="d-flex">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <h3 class="text-center mt-3">
+            🏥 HMS
+        </h3>
+
+        <hr>
+
+        <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+
+        <a href="#"><i class="bi bi-people-fill"></i> Patients</a>
+
+        <a href="#"><i class="bi bi-person-badge-fill"></i> Doctors</a>
+
+        <a href="#"><i class="bi bi-calendar-check"></i> Appointments</a>
+
+        <a href="#"><i class="bi bi-receipt"></i> Billing</a>
+
+        <a href="#"><i class="bi bi-capsule"></i> Pharmacy</a>
+
+        <a href="#"><i class="bi bi-heart-pulse"></i> Laboratory</a>
+
+        <a href="#"><i class="bi bi-hospital"></i> Beds</a>
+
+        <a href="#"><i class="bi bi-person-workspace"></i> Staff</a>
+
+        <a href="#"><i class="bi bi-file-earmark-excel"></i> Reports</a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="content w-100">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-light bg-white shadow-sm">
+
+            <div class="container-fluid">
+
+                <h4 class="mb-0">
+                    Hospital Management System
+                </h4>
+
+                <span class="fw-bold">
+                    👤 Admin
+                </span>
+
+            </div>
+
+        </nav>
+
+        <div class="container mt-4">
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
