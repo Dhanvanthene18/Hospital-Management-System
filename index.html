@@ -2,158 +2,93 @@
 
 {% block content %}
 
-<h2 class="mb-4">
-    Dashboard
-</h2>
+<h2 class="mb-4">Dashboard</h2>
 
+<!-- Dashboard Cards -->
 <div class="row">
 
     <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="card dashboard-card bg-blue">
-
             <div class="card-body">
-
                 <i class="bi bi-people-fill"></i>
-
                 <h5>Total Patients</h5>
-
                 <h2>250</h2>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="card dashboard-card bg-green">
-
             <div class="card-body">
-
                 <i class="bi bi-person-badge-fill"></i>
-
                 <h5>Total Doctors</h5>
-
                 <h2>35</h2>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="card dashboard-card bg-orange">
-
             <div class="card-body">
-
                 <i class="bi bi-calendar-check-fill"></i>
-
                 <h5>Appointments Today</h5>
-
                 <h2>18</h2>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="card dashboard-card bg-red">
-
             <div class="card-body">
-
                 <i class="bi bi-hospital-fill"></i>
-
                 <h5>Available Beds</h5>
-
                 <h2>45</h2>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="card dashboard-card bg-purple">
-
             <div class="card-body">
-
                 <i class="bi bi-currency-rupee"></i>
-
                 <h5>Total Revenue</h5>
-
                 <h2>₹2.5L</h2>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="card dashboard-card bg-teal">
-
             <div class="card-body">
-
                 <i class="bi bi-heart-pulse-fill"></i>
-
                 <h5>Emergency Cases</h5>
-
                 <h2>4</h2>
-
             </div>
-
         </div>
-
-    </div>
-    <div class="row mt-2">
-
-    <div class="col-lg-6 mb-4">
-
-        <div class="card shadow border-0 rounded-4">
-
-            <div class="card-body">
-
-                <h5 class="mb-3">
-                    📈 Monthly Patients
-                </h5>
-
-                <canvas id="patientChart"></canvas>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-lg-6 mb-4">
-
-        <div class="card shadow border-0 rounded-4">
-
-            <div class="card-body">
-
-                <h5 class="mb-3">
-                    💰 Monthly Revenue
-                </h5>
-
-                <canvas id="revenueChart"></canvas>
-
-            </div>
-
-        </div>
-
     </div>
 
 </div>
+
+<!-- Charts -->
+<div class="row">
+
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body">
+                <h5 class="mb-3">📈 Monthly Patients</h5>
+                <canvas id="patientChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body">
+                <h5 class="mb-3">💰 Monthly Revenue</h5>
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -163,45 +98,46 @@
 
 <script>
 
-const patientChart = new Chart(
-    document.getElementById('patientChart'),
-    {
-        type: 'line',
-        data: {
-            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-            datasets: [{
-                label: 'Patients',
-                data: [120,160,180,200,220,250],
-                borderColor: '#0d6efd',
-                backgroundColor: 'rgba(13,110,253,0.2)',
-                fill: true,
-                tension: 0.4
-            }]
-        }
+const patientChart = new Chart(document.getElementById('patientChart'), {
+    type: 'line',
+    data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets: [{
+            label: 'Patients',
+            data: [120,160,180,200,220,250],
+            borderColor: '#0d6efd',
+            backgroundColor: 'rgba(13,110,253,0.2)',
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true
     }
-);
+});
 
-const revenueChart = new Chart(
-    document.getElementById('revenueChart'),
-    {
-        type: 'bar',
-        data: {
-            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-            datasets: [{
-                label: 'Revenue (₹)',
-                data: [50000,65000,80000,95000,110000,125000],
-                backgroundColor: [
-                    '#0d6efd',
-                    '#198754',
-                    '#fd7e14',
-                    '#dc3545',
-                    '#6f42c1',
-                    '#20c997'
-                ]
-            }]
-        }
+const revenueChart = new Chart(document.getElementById('revenueChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets: [{
+            label: 'Revenue',
+            data: [50000,65000,80000,95000,110000,125000],
+            backgroundColor: [
+                '#0d6efd',
+                '#198754',
+                '#fd7e14',
+                '#dc3545',
+                '#6f42c1',
+                '#20c997'
+            ]
+        }]
+    },
+    options: {
+        responsive: true
     }
-);
+});
 
 </script>
+
 {% endblock %}
