@@ -33,6 +33,10 @@ class Patient(db.Model):
 def home():
     return render_template("index.html")
 
+@app.route("/patients")
+def patients():
+    return render_template("patients.html")
+
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
