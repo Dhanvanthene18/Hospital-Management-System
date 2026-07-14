@@ -10,16 +10,64 @@
         <i class="bi bi-plus-circle"></i> Add Patient
     </a>
 </div>
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Patients</h2>
+
+<div class="mb-3">
+    <a href="{{ url_for('add_patient') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Patient
+    </a>
+</div>
+
 <div class="card shadow">
 
     <div class="card-body">
 
-        <h4>Patient Management Module</h4>
+        <table class="table table-bordered table-hover">
 
-        <p>This page will display all patients from the database.</p>
+            <thead class="table-dark">
+
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Doctor</th>
+                    <th>Disease</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for patient in patients %}
+
+                <tr>
+
+                    <td>{{ patient.patient_id }}</td>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.gender }}</td>
+                    <td>{{ patient.doctor }}</td>
+                    <td>{{ patient.disease }}</td>
+                    <td>{{ patient.status }}</td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
 
     </div>
 
 </div>
+
+{% endblock %}
 
 {% endblock %}
