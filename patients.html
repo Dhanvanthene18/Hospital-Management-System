@@ -1,73 +1,73 @@
 {% extends "base.html" %}
 
-{% block content %}
-
-<h2 class="mb-4">
-    Patients
-</h2>
-<div class="mb-3">
-    <a href="{{ url_for('add_patient') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Add Patient
-    </a>
-</div>
-{% extends "base.html" %}
+{% block title %}Patients{% endblock %}
 
 {% block content %}
 
-<h2 class="mb-4">Patients</h2>
+<div class="container-fluid mt-4">
 
-<div class="mb-3">
-    <a href="{{ url_for('add_patient') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Add Patient
-    </a>
-</div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Patients</h2>
 
-<div class="card shadow">
+        <a href="{{ url_for('add_patient') }}" class="btn btn-primary">
+            + Add New Patient
+        </a>
+    </div>
 
-    <div class="card-body">
+    <div class="card shadow-sm">
+        <div class="card-body">
 
-        <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Blood Group</th>
+                        <th>Disease</th>
+                        <th>Doctor</th>
+                        <th>Admission Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
 
-            <thead class="table-dark">
+                <tbody>
 
-                <tr>
-                    <th>Patient ID</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Doctor</th>
-                    <th>Disease</th>
-                    <th>Status</th>
-                </tr>
+                {% if patients %}
 
-            </thead>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.patient_id }}</td>
+                        <td>{{ patient.name }}</td>
+                        <td>{{ patient.age }}</td>
+                        <td>{{ patient.gender }}</td>
+                        <td>{{ patient.phone }}</td>
+                        <td>{{ patient.blood_group }}</td>
+                        <td>{{ patient.disease }}</td>
+                        <td>{{ patient.doctor }}</td>
+                        <td>{{ patient.admission_date }}</td>
+                        <td>{{ patient.status }}</td>
+                    </tr>
+                    {% endfor %}
 
-            <tbody>
+                {% else %}
 
-            {% for patient in patients %}
+                    <tr>
+                        <td colspan="10" class="text-center">
+                            No patients found.
+                        </td>
+                    </tr>
 
-                <tr>
+                {% endif %}
 
-                    <td>{{ patient.patient_id }}</td>
-                    <td>{{ patient.name }}</td>
-                    <td>{{ patient.age }}</td>
-                    <td>{{ patient.gender }}</td>
-                    <td>{{ patient.doctor }}</td>
-                    <td>{{ patient.disease }}</td>
-                    <td>{{ patient.status }}</td>
+                </tbody>
+            </table>
 
-                </tr>
-
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-
+        </div>
     </div>
 
 </div>
-
-{% endblock %}
 
 {% endblock %}
