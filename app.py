@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -66,6 +68,33 @@ def add_patient():
 def patients():
     patients = Patient.query.all()      # Step 1
     return render_template("patients.html", patients=patients)   # Step 2
+@app.route("/edit_patient/<int:id>", methods=["GET", "POST"])
+def edit_patient(id):
+    patient = Patient.query.get_or_404(id)
+
+    if request.method == "POST":
+        patient.patient_id = request.form["patient_id"]
+        patient.name = request.form["name"]
+        patient.age = request.form["age"]
+        patient.gender = request.form["gender"]
+        patient.phone = request.form["phone"]
+        patient.address = request.form["address"]
+        patient.blood_group = request.form["blood_group"]
+        patient.disease = request.form["disease"]
+        patient.doctor = request.form["doctor"]
+
+        patient.admission_date = datetime.strptime(
+            request.form["admission_date"],
+            "%Y-%m-%d"
+        ).date()
+
+        patient.status = request.form["status"]
+
+        db.session.commit()
+
+        return redirect(url_for("patients"))
+
+    return render_template("edit_patient.html", patient=patient)
 
 # ---------------- Run App ----------------
 
