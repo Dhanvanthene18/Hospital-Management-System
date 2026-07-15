@@ -64,7 +64,8 @@ def add_patient():
 
 @app.route("/patients")
 def patients():
-    return render_template("patients.html")
+    patients = Patient.query.all()      # Step 1
+    return render_template("patients.html", patients=patients)   # Step 2
 
 # ---------------- Run App ----------------
 
