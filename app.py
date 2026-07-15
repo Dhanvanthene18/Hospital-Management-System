@@ -95,6 +95,15 @@ def edit_patient(id):
         return redirect(url_for("patients"))
 
     return render_template("edit_patient.html", patient=patient)
+@app.route("/delete_patient/<int:id>")
+def delete_patient(id):
+
+    patient = Patient.query.get_or_404(id)
+
+    db.session.delete(patient)
+    db.session.commit()
+
+    return redirect(url_for("patients"))
 
 # ---------------- Run App ----------------
 
