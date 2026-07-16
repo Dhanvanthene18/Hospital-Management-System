@@ -48,10 +48,12 @@ class Doctor(db.Model):
 def home():
 
     total_patients = Patient.query.count()
+    total_doctors = Doctor.query.count()
 
     return render_template(
         "index.html",
-        total_patients=total_patients
+        total_patients=total_patients,
+        total_doctors=total_doctors
     )
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
