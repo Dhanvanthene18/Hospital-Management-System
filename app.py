@@ -28,6 +28,19 @@ class Patient(db.Model):
     doctor = db.Column(db.String(100))
     admission_date = db.Column(db.Date)
     status = db.Column(db.String(20))
+class Doctor(db.Model):
+    __tablename__ = "doctors"
+
+    id = db.Column(db.Integer, primary_key=True)
+    doctor_id = db.Column(db.String(20), unique=True)
+    name = db.Column(db.String(100), nullable=False)
+    specialization = db.Column(db.String(100))
+    qualification = db.Column(db.String(100))
+    experience = db.Column(db.Integer)
+    phone = db.Column(db.String(15))
+    email = db.Column(db.String(100))
+    consultation_fee = db.Column(db.Float)
+    availability = db.Column(db.String(50))
 
 # ---------------- Routes ----------------
 
