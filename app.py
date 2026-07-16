@@ -33,7 +33,13 @@ class Patient(db.Model):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+
+    total_patients = Patient.query.count()
+
+    return render_template(
+        "index.html",
+        total_patients=total_patients
+    )
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 @app.route("/patients/add", methods=["GET", "POST"])
