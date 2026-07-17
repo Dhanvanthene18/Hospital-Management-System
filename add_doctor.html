@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Add Doctor{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">Add New Doctor</h2>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label>Doctor ID</label>
+                        <input type="text" class="form-control" name="doctor_id" placeholder="D001" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Doctor Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Specialization</label>
+                        <input type="text" class="form-control" name="specialization">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Qualification</label>
+                        <input type="text" class="form-control" name="qualification">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Experience (Years)</label>
+                        <input type="number" class="form-control" name="experience">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" name="phone">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="email">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Consultation Fee (₹)</label>
+                        <input type="number" class="form-control" name="consultation_fee">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Availability</label>
+
+                        <select class="form-control" name="availability">
+
+                            <option>Available</option>
+                            <option>Unavailable</option>
+                            <option>On Leave</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-success">
+                    Save Doctor
+                </button>
+
+                <a href="{{ url_for('doctors') }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
