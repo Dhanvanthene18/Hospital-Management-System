@@ -125,7 +125,18 @@ def delete_patient(id):
     db.session.commit()
 
     return redirect(url_for("patients"))
+@app.route("/doctors")
+def doctors():
 
+    doctors = Doctor.query.all()
+
+    return render_template(
+        "doctors.html",
+        doctors=doctors
+    )
+@app.route("/add_doctor")
+def add_doctor():
+    return render_template("add_doctor.html")
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
