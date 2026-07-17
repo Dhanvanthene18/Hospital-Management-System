@@ -29,8 +29,11 @@
         <hr>
 
         <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="#"><i class="bi bi-people-fill"></i> Patients</a>
-        <a href="#"><i class="bi bi-person-badge-fill"></i> Doctors</a>
+        <a href="{{ url_for('patients') }}">
+    <i class="bi bi-people-fill"></i> Patients
+</a>
+         <a href="{{ url_for('doctors') }}">
+        <i class="bi bi-person-badge-fill"></i> Doctors</a>
         <a href="#"><i class="bi bi-calendar-check"></i> Appointments</a>
         <a href="#"><i class="bi bi-receipt"></i> Billing</a>
         <a href="#"><i class="bi bi-capsule"></i> Pharmacy</a>
