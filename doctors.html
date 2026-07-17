@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Doctors{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Doctors</h2>
+
+        <a href="{{ url_for('add_doctor') }}" class="btn btn-primary">
+    + Add New Doctor
+</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-primary">
+                    <tr>
+                        <th>Doctor ID</th>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Experience</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Consultation Fee</th>
+                        <th>Availability</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% if doctors %}
+
+                    {% for doctor in doctors %}
+
+                    <tr>
+
+                        <td>{{ doctor.doctor_id }}</td>
+                        <td>{{ doctor.name }}</td>
+                        <td>{{ doctor.specialization }}</td>
+                        <td>{{ doctor.experience }} Years</td>
+                        <td>{{ doctor.phone }}</td>
+                        <td>{{ doctor.email }}</td>
+                        <td>₹{{ doctor.consultation_fee }}</td>
+                        <td>{{ doctor.availability }}</td>
+
+                        <td>
+
+                            <a href="#" class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <a href="#" class="btn btn-danger btn-sm">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="9" class="text-center">
+                            No doctors available.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
