@@ -2,7 +2,6 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
-
 app = Flask(__name__)
 
 # Database Configuration
@@ -41,6 +40,23 @@ class Doctor(db.Model):
     email = db.Column(db.String(100))
     consultation_fee = db.Column(db.Float)
     availability = db.Column(db.String(50))
+# Add this below the Doctor model
+class Appointment(db.Model):
+    __tablename__ = "appointments"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    appointment_id = db.Column(db.String(20), unique=True, nullable=False)
+
+    patient_name = db.Column(db.String(100), nullable=False)
+
+    doctor_name = db.Column(db.String(100), nullable=False)
+
+    appointment_date = db.Column(db.Date, nullable=False)
+
+    appointment_time = db.Column(db.String(20), nullable=False)
+
+    status = db.Column(db.String(20), nullable=False)
 
 # ---------------- Routes ----------------
 
@@ -134,9 +150,67 @@ def doctors():
         "doctors.html",
         doctors=doctors
     )
-@app.route("/add_doctor")
+from flask import request, redirect, url_for
+
+@app.route("/add_doctor", methods=["GET", "POST"])
 def add_doctor():
+
+    if request.method == "POST":
+
+        doctor = Doctor(
+
+            doctor_id=request.form["doctor_id"],
+            name=request.form["name"],
+            specialization=request.form["specialization"],
+            qualification=request.form["qualification"],
+            experience=request.form["experience"],
+            phone=request.form["phone"],
+            email=request.form["email"],
+            consultation_fee=request.form["consultation_fee"],
+            availability=request.form["availability"]
+
+        )
+
+        db.session.add(doctor)
+        db.session.commit()
+
+        return redirect(url_for("doctors"))
+
     return render_template("add_doctor.html")
+@app.route("/edit_doctor/<int:id>", methods=["GET", "POST"])
+def edit_doctor(id):
+
+    doctor = Doctor.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        doctor.doctor_id = request.form["doctor_id"]
+        doctor.name = request.form["name"]
+        doctor.specialization = request.form["specialization"]
+        doctor.qualification = request.form["qualification"]
+        doctor.experience = request.form["experience"]
+        doctor.phone = request.form["phone"]
+        doctor.email = request.form["email"]
+        doctor.consultation_fee = request.form["consultation_fee"]
+        doctor.availability = request.form["availability"]
+
+        db.session.commit()
+
+        return redirect(url_for("doctors"))
+
+    return render_template(
+        "edit_doctor.html",
+        doctor=doctor
+    )
+@app.route("/delete_doctor/<int:id>")
+def delete_doctor(id):
+
+    doctor = Doctor.query.get_or_404(id)
+
+    db.session.delete(doctor)
+    db.session.commit()
+
+    return redirect(url_for("doctors"))
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
