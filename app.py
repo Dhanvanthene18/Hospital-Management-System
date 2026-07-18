@@ -211,6 +211,15 @@ def delete_doctor(id):
     db.session.commit()
 
     return redirect(url_for("doctors"))
+@app.route("/appointments")
+def appointments():
+
+    appointments = Appointment.query.all()
+
+    return render_template(
+        "appointments.html",
+        appointments=appointments
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
