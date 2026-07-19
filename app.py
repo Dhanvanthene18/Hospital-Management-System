@@ -220,6 +220,31 @@ def appointments():
         "appointments.html",
         appointments=appointments
     )
+from datetime import datetime
+
+@app.route("/appointments/add", methods=["GET", "POST"])
+def add_appointment():
+
+    if request.method == "POST":
+
+        appointment = Appointment(
+            appointment_id=request.form["appointment_id"],
+            patient_name=request.form["patient_name"],
+            doctor_name=request.form["doctor_name"],
+            appointment_date=datetime.strptime(
+                request.form["appointment_date"],
+                "%Y-%m-%d"
+            ).date(),
+            appointment_time=request.form["appointment_time"],
+            status=request.form["status"]
+        )
+
+        db.session.add(appointment)
+        db.session.commit()
+
+        return redirect(url_for("appointments"))
+
+    return render_template("add_appointment.html")
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
