@@ -245,6 +245,31 @@ def add_appointment():
         return redirect(url_for("appointments"))
 
     return render_template("add_appointment.html")
+@app.route("/appointments/edit/<int:id>", methods=["GET", "POST"])
+def edit_appointment(id):
+
+    appointment = Appointment.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        appointment.appointment_id = request.form["appointment_id"]
+        appointment.patient_name = request.form["patient_name"]
+        appointment.doctor_name = request.form["doctor_name"]
+        appointment.appointment_date = datetime.strptime(
+            request.form["appointment_date"],
+            "%Y-%m-%d"
+        ).date()
+        appointment.appointment_time = request.form["appointment_time"]
+        appointment.status = request.form["status"]
+
+        db.session.commit()
+
+        return redirect(url_for("appointments"))
+
+    return render_template(
+        "edit_appointment.html",
+        appointment=appointment
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
