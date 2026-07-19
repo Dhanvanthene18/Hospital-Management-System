@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Appointment{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">Edit Appointment</h2>
+
+    <div class="card shadow p-4">
+
+        <form method="POST">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Appointment ID</label>
+                    <input type="text"
+                           class="form-control"
+                           name="appointment_id"
+                           value="{{ appointment.appointment_id }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Patient Name</label>
+                    <input type="text"
+                           class="form-control"
+                           name="patient_name"
+                           value="{{ appointment.patient_name }}"
+                           required>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Doctor Name</label>
+                    <input type="text"
+                           class="form-control"
+                           name="doctor_name"
+                           value="{{ appointment.doctor_name }}"
+                           required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label>Appointment Date</label>
+                    <input type="date"
+                           class="form-control"
+                           name="appointment_date"
+                           value="{{ appointment.appointment_date }}"
+                           required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label>Appointment Time</label>
+                    <input type="time"
+                           class="form-control"
+                           name="appointment_time"
+                           value="{{ appointment.appointment_time }}"
+                           required>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <label>Status</label>
+
+                    <select class="form-control" name="status">
+
+                        <option value="Scheduled"
+                        {% if appointment.status=="Scheduled" %}selected{% endif %}>
+                        Scheduled
+                        </option>
+
+                        <option value="Completed"
+                        {% if appointment.status=="Completed" %}selected{% endif %}>
+                        Completed
+                        </option>
+
+                        <option value="Cancelled"
+                        {% if appointment.status=="Cancelled" %}selected{% endif %}>
+                        Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-success">
+                Update Appointment
+            </button>
+
+            <a href="{{ url_for('appointments') }}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
