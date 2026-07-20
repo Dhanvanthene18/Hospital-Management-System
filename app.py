@@ -57,6 +57,18 @@ class Appointment(db.Model):
     appointment_time = db.Column(db.String(20), nullable=False)
 
     status = db.Column(db.String(20), nullable=False)
+class Billing(db.Model):
+    __tablename__ = "billing"
+
+    id = db.Column(db.Integer, primary_key=True)
+    bill_no = db.Column(db.String(10), unique=True, nullable=False)
+    patient_name = db.Column(db.String(100), nullable=False)
+    doctor_name = db.Column(db.String(100), nullable=False)
+    consultation_fee = db.Column(db.Float, nullable=False)
+    medicine_charge = db.Column(db.Float, nullable=False)
+    lab_charge = db.Column(db.Float, nullable=False)
+    total_amount = db.Column(db.Float, nullable=False)
+    payment_status = db.Column(db.String(20), nullable=False)
 
 # ---------------- Routes ----------------
 
