@@ -25,11 +25,22 @@
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label>Patient Name</label>
-                    <input type="text"
-                           class="form-control"
-                           name="patient_name"
-                           required>
+                    <label>Patient</label>
+
+                <select class="form-control" name="patient_name" required>
+
+                   <option value="">Select Patient</option>
+
+                   {% for patient in patients %}
+
+                   <option value="{{ patient.name }}">
+                      {{ patient.name }}
+                 </option>
+
+    {% endfor %}
+
+</select> 
+
                 </div>
 
             </div>
@@ -37,11 +48,21 @@
             <div class="row">
 
                 <div class="col-md-6 mb-3">
-                    <label>Doctor Name</label>
-                    <input type="text"
-                           class="form-control"
-                           name="doctor_name"
-                           required>
+                    <label>Doctor</label>
+
+                    <select class="form-control" name="doctor_name" required>
+
+                    <option value="">Select Doctor</option>
+
+                    {% for doctor in doctors %}
+
+                    <option value="{{ doctor.name }}">
+                        {{ doctor.name }}
+                    </option>
+
+                   {% endfor %}
+
+                   </select>
                 </div>
 
                 <div class="col-md-3 mb-3">
