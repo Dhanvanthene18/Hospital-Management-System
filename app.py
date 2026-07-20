@@ -226,15 +226,11 @@ from datetime import datetime
 def add_appointment():
 
     if request.method == "POST":
-
         appointment = Appointment(
             appointment_id=request.form["appointment_id"],
             patient_name=request.form["patient_name"],
             doctor_name=request.form["doctor_name"],
-            appointment_date=datetime.strptime(
-                request.form["appointment_date"],
-                "%Y-%m-%d"
-            ).date(),
+            appointment_date=request.form["appointment_date"],
             appointment_time=request.form["appointment_time"],
             status=request.form["status"]
         )
@@ -244,7 +240,15 @@ def add_appointment():
 
         return redirect(url_for("appointments"))
 
-    return render_template("add_appointment.html")
+    # This part must be OUTSIDE the if block
+    patients = Patient.query.all()
+    doctors = Doctor.query.all()
+
+    return render_template(
+        "add_appointment.html",
+        patients=patients,
+        doctors=doctors
+    )
 @app.route("/appointments/edit/<int:id>", methods=["GET", "POST"])
 def edit_appointment(id):
 
@@ -270,6 +274,14 @@ def edit_appointment(id):
         "edit_appointment.html",
         appointment=appointment
     )
+@app.route("/delete_appointment/<int:id>")
+def delete_appointment(id):
+    appointment = Appointment.query.get_or_404(id)
+
+    db.session.delete(appointment)
+    db.session.commit()
+
+    return redirect(url_for("appointments"))
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
