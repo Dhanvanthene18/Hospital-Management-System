@@ -294,6 +294,14 @@ def delete_appointment(id):
     db.session.commit()
 
     return redirect(url_for("appointments"))
+@app.route("/billing")
+def billing():
+    bills = Billing.query.all()
+
+    return render_template(
+        "billing.html",
+        bills=bills
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
