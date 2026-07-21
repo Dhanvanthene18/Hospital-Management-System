@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Add Bill{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Add New Bill</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Bill Number</label>
+                    <input type="text"
+                           class="form-control"
+                           name="bill_no"
+                           value="B001"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Patient</label>
+                    <select class="form-control" name="patient_name" required>
+                        {% for patient in patients %}
+                        <option value="{{ patient.name }}">{{ patient.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Doctor</label>
+                    <select class="form-control" name="doctor_name" required>
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.name }}">{{ doctor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Consultation Fee</label>
+                    <input type="number"
+                           class="form-control"
+                           name="consultation_fee"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Medicine Charge</label>
+                    <input type="number"
+                           class="form-control"
+                           name="medicine_charge"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Lab Charge</label>
+                    <input type="number"
+                           class="form-control"
+                           name="lab_charge"
+                           required>
+                </div>
+                <div class="col-md-6 mb-3">
+                <label>Total Amount</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="total_amount"
+                 name="total_amount"
+                   readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Payment Status</label>
+                    <select class="form-control" name="payment_status">
+                        <option>Paid</option>
+                        <option>Pending</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button class="btn btn-success">
+                Save Bill
+            </button>
+
+            <a href="{{ url_for('billing') }}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+</div>
+<script>
+
+function calculateTotal() {
+
+    let consultation =
+        parseFloat(document.getElementById("consultation_fee").value) || 0;
+
+    let medicine =
+        parseFloat(document.getElementById("medicine_charge").value) || 0;
+
+    let lab =
+        parseFloat(document.getElementById("lab_charge").value) || 0;
+
+    document.getElementById("total_amount").value =
+        consultation + medicine + lab;
+}
+
+document.getElementById("consultation_fee").addEventListener("input", calculateTotal);
+document.getElementById("medicine_charge").addEventListener("input", calculateTotal);
+document.getElementById("lab_charge").addEventListener("input", calculateTotal);
+
+calculateTotal();
+
+</script>
+{% endblock %}
