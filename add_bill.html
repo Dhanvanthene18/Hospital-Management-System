@@ -43,25 +43,28 @@
                 <div class="col-md-6 mb-3">
                     <label>Consultation Fee</label>
                     <input type="number"
-                           class="form-control"
-                           name="consultation_fee"
-                           required>
+                    class="form-control"
+                    id="consultation_fee"
+                    name="consultation_fee"
+                    required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label>Medicine Charge</label>
                     <input type="number"
-                           class="form-control"
-                           name="medicine_charge"
-                           required>
+                    class="form-control"
+                    id="medicine_charge"
+                    name="medicine_charge"
+                    required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label>Lab Charge</label>
                     <input type="number"
-                           class="form-control"
-                           name="lab_charge"
-                           required>
+                    class="form-control"
+                    id="lab_charge"
+                    name="lab_charge"
+                    required>
                 </div>
                 <div class="col-md-6 mb-3">
                 <label>Total Amount</label>
@@ -97,27 +100,27 @@
     </div>
 </div>
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
-function calculateTotal() {
+    function calculateTotal() {
+        let consultation =
+            parseFloat(document.getElementById("consultation_fee").value) || 0;
 
-    let consultation =
-        parseFloat(document.getElementById("consultation_fee").value) || 0;
+        let medicine =
+            parseFloat(document.getElementById("medicine_charge").value) || 0;
 
-    let medicine =
-        parseFloat(document.getElementById("medicine_charge").value) || 0;
+        let lab =
+            parseFloat(document.getElementById("lab_charge").value) || 0;
 
-    let lab =
-        parseFloat(document.getElementById("lab_charge").value) || 0;
+        document.getElementById("total_amount").value =
+            consultation + medicine + lab;
+    }
 
-    document.getElementById("total_amount").value =
-        consultation + medicine + lab;
-}
+    document.getElementById("consultation_fee").addEventListener("input", calculateTotal);
+    document.getElementById("medicine_charge").addEventListener("input", calculateTotal);
+    document.getElementById("lab_charge").addEventListener("input", calculateTotal);
 
-document.getElementById("consultation_fee").addEventListener("input", calculateTotal);
-document.getElementById("medicine_charge").addEventListener("input", calculateTotal);
-document.getElementById("lab_charge").addEventListener("input", calculateTotal);
-
-calculateTotal();
-
+    calculateTotal();
+});
 </script>
 {% endblock %}
