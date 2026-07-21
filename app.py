@@ -302,6 +302,41 @@ def billing():
         "billing.html",
         bills=bills
     )
+@app.route("/billing/add", methods=["GET", "POST"])
+def add_bill():
+
+    if request.method == "POST":
+
+        consultation = float(request.form["consultation_fee"])
+        medicine = float(request.form["medicine_charge"])
+        lab = float(request.form["lab_charge"])
+
+        total = consultation + medicine + lab
+
+        bill = Billing(
+            bill_no=request.form["bill_no"],
+            patient_name=request.form["patient_name"],
+            doctor_name=request.form["doctor_name"],
+            consultation_fee=consultation,
+            medicine_charge=medicine,
+            lab_charge=lab,
+            total_amount=total,
+            payment_status=request.form["payment_status"]
+        )
+
+        db.session.add(bill)
+        db.session.commit()
+
+        return redirect(url_for("billing"))
+
+    patients = Patient.query.all()
+    doctors = Doctor.query.all()
+
+    return render_template(
+        "add_bill.html",
+        patients=patients,
+        doctors=doctors
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
