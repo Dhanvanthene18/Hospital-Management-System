@@ -70,6 +70,18 @@ class Billing(db.Model):
     total_amount = db.Column(db.Float, nullable=False)
     payment_status = db.Column(db.String(20), nullable=False)
 
+class Pharmacy(db.Model):
+    __tablename__ = "pharmacy"
+
+    id = db.Column(db.Integer, primary_key=True)
+    medicine_id = db.Column(db.String(20), nullable=False)
+    medicine_name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(100))
+    price = db.Column(db.Float)
+    stock = db.Column(db.Integer)
+    expiry_date = db.Column(db.Date)
+    supplier = db.Column(db.String(100))
+
 # ---------------- Routes ----------------
 
 @app.route("/")
