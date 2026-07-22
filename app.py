@@ -330,6 +330,25 @@ def add_bill():
         patients=patients,
         doctors=doctors
     )
+@app.route("/pharmacy")
+def pharmacy():
+
+    medicines = Pharmacy.query.all()
+
+    return render_template(
+        "pharmacy.html",
+        medicines=medicines
+    )
+@app.route("/add_medicine", methods=["GET", "POST"])
+def add_medicine():
+
+    if request.method == "POST":
+
+        # We will save medicine in the next step
+
+        return redirect(url_for("pharmacy"))
+
+    return render_template("add_medicine.html")
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
