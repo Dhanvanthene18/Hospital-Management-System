@@ -344,7 +344,21 @@ def add_medicine():
 
     if request.method == "POST":
 
-        # We will save medicine in the next step
+        medicine = Pharmacy(
+            medicine_id=request.form["medicine_id"],
+            medicine_name=request.form["medicine_name"],
+            category=request.form["category"],
+            price=float(request.form["price"]),
+            stock=int(request.form["stock"]),
+            expiry_date=datetime.strptime(
+                request.form["expiry_date"],
+                "%Y-%m-%d"
+            ).date(),
+            supplier=request.form["supplier"]
+        )
+
+        db.session.add(medicine)
+        db.session.commit()
 
         return redirect(url_for("pharmacy"))
 
