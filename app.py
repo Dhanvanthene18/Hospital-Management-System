@@ -363,6 +363,40 @@ def add_medicine():
         return redirect(url_for("pharmacy"))
 
     return render_template("add_medicine.html")
+@app.route("/edit_medicine/<int:id>", methods=["GET", "POST"])
+def edit_medicine(id):
+
+    medicine = Pharmacy.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        medicine.medicine_id = request.form["medicine_id"]
+        medicine.medicine_name = request.form["medicine_name"]
+        medicine.category = request.form["category"]
+        medicine.price = float(request.form["price"])
+        medicine.stock = int(request.form["stock"])
+        medicine.expiry_date = datetime.strptime(
+            request.form["expiry_date"], "%Y-%m-%d"
+        ).date()
+        medicine.supplier = request.form["supplier"]
+
+        db.session.commit()
+
+        return redirect(url_for("pharmacy"))
+
+    return render_template(
+        "edit_medicine.html",
+        medicine=medicine
+    )
+@app.route("/delete_medicine/<int:id>")
+def delete_medicine(id):
+
+    medicine = Pharmacy.query.get_or_404(id)
+
+    db.session.delete(medicine)
+    db.session.commit()
+
+    return redirect(url_for("pharmacy"))
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
