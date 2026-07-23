@@ -81,6 +81,17 @@ class Pharmacy(db.Model):
     stock = db.Column(db.Integer)
     expiry_date = db.Column(db.Date)
     supplier = db.Column(db.String(100))
+class Laboratory(db.Model):
+    __tablename__ = "laboratory"
+
+    id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column(db.String(20), unique=True)
+    patient_name = db.Column(db.String(100), nullable=False)
+    doctor_name = db.Column(db.String(100), nullable=False)
+    test_name = db.Column(db.String(100), nullable=False)
+    test_date = db.Column(db.Date, nullable=False)
+    result = db.Column(db.Text)
+    status = db.Column(db.String(20))
 
 # ---------------- Routes ----------------
 
