@@ -408,6 +408,15 @@ def delete_medicine(id):
     db.session.commit()
 
     return redirect(url_for("pharmacy"))
+@app.route("/laboratory")
+def laboratory():
+
+    tests = Laboratory.query.all()
+
+    return render_template(
+        "laboratory.html",
+        tests=tests
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
