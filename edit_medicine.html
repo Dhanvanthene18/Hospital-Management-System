@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Medicine{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">Edit Medicine</h2>
+
+    <div class="card shadow p-4">
+
+        <form method="POST">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Medicine ID</label>
+                    <input type="text"
+                           class="form-control"
+                           name="medicine_id"
+                           value="{{ medicine.medicine_id }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Medicine Name</label>
+                    <input type="text"
+                           class="form-control"
+                           name="medicine_name"
+                           value="{{ medicine.medicine_name }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Category</label>
+                    <input type="text"
+                           class="form-control"
+                           name="category"
+                           value="{{ medicine.category }}">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Price (₹)</label>
+                    <input type="number"
+                           step="0.01"
+                           class="form-control"
+                           name="price"
+                           value="{{ medicine.price }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Stock</label>
+                    <input type="number"
+                           class="form-control"
+                           name="stock"
+                           value="{{ medicine.stock }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Expiry Date</label>
+                    <input type="date"
+                           class="form-control"
+                           name="expiry_date"
+                           value="{{ medicine.expiry_date }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Supplier</label>
+                    <input type="text"
+                           class="form-control"
+                           name="supplier"
+                           value="{{ medicine.supplier }}">
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Update Medicine
+            </button>
+
+            <a href="{{ url_for('pharmacy') }}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
