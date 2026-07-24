@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Add Lab Test{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">Add Laboratory Test</h2>
+
+    <div class="card shadow p-4">
+
+        <form method="POST">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Test ID</label>
+                    <input type="text"
+                           class="form-control"
+                           name="test_id"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Patient</label>
+
+                    <select class="form-control"
+                            name="patient_name"
+                            required>
+
+                        {% for patient in patients %}
+                        <option value="{{ patient.name }}">
+                            {{ patient.name }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Doctor</label>
+
+                    <select class="form-control"
+                            name="doctor_name"
+                            required>
+
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.name }}">
+                            {{ doctor.name }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Test Name</label>
+                    <input type="text"
+                           class="form-control"
+                           name="test_name"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Test Date</label>
+                    <input type="date"
+                           class="form-control"
+                           name="test_date"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Status</label>
+
+                    <select class="form-control"
+                            name="status">
+
+                        <option>Pending</option>
+                        <option>Completed</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label>Result</label>
+
+                    <textarea class="form-control"
+                              rows="5"
+                              name="result"></textarea>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-success">
+                Save Test
+            </button>
+
+            <a href="{{ url_for('laboratory') }}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
