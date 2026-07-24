@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Lab Test{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">Edit Laboratory Test</h2>
+
+    <div class="card shadow p-4">
+
+        <form method="POST">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>Test ID</label>
+                    <input type="text"
+                           class="form-control"
+                           name="test_id"
+                           value="{{ test.test_id }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Patient</label>
+
+                    <select class="form-control" name="patient_name" required>
+
+                        {% for patient in patients %}
+                        <option value="{{ patient.name }}"
+                            {% if patient.name == test.patient_name %}selected{% endif %}>
+                            {{ patient.name }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Doctor</label>
+
+                    <select class="form-control" name="doctor_name" required>
+
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.name }}"
+                            {% if doctor.name == test.doctor_name %}selected{% endif %}>
+                            {{ doctor.name }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Test Name</label>
+                    <input type="text"
+                           class="form-control"
+                           name="test_name"
+                           value="{{ test.test_name }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Test Date</label>
+                    <input type="date"
+                           class="form-control"
+                           name="test_date"
+                           value="{{ test.test_date }}"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Status</label>
+
+                    <select class="form-control" name="status">
+                        <option value="Pending"
+                            {% if test.status == 'Pending' %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Completed"
+                            {% if test.status == 'Completed' %}selected{% endif %}>
+                            Completed
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label>Result</label>
+
+                    <textarea class="form-control"
+                              rows="5"
+                              name="result">{{ test.result }}</textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Update Test
+            </button>
+
+            <a href="{{ url_for('laboratory') }}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
