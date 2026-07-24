@@ -417,6 +417,39 @@ def laboratory():
         "laboratory.html",
         tests=tests
     )
+from datetime import datetime
+
+@app.route("/add_lab_test", methods=["GET", "POST"])
+def add_lab_test():
+
+    if request.method == "POST":
+
+        test = Laboratory(
+            test_id=request.form["test_id"],
+            patient_name=request.form["patient_name"],
+            doctor_name=request.form["doctor_name"],
+            test_name=request.form["test_name"],
+            test_date=datetime.strptime(
+                request.form["test_date"],
+                "%Y-%m-%d"
+            ).date(),
+            result=request.form["result"],
+            status=request.form["status"]
+        )
+
+        db.session.add(test)
+        db.session.commit()
+
+        return redirect(url_for("laboratory"))
+
+    patients = Patient.query.all()
+    doctors = Doctor.query.all()
+
+    return render_template(
+        "add_lab_test.html",
+        patients=patients,
+        doctors=doctors
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
