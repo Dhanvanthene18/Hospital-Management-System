@@ -480,6 +480,15 @@ def edit_lab_test(id):
         patients=patients,
         doctors=doctors
     )
+@app.route("/delete_lab_test/<int:id>")
+def delete_lab_test(id):
+
+    test = Laboratory.query.get_or_404(id)
+
+    db.session.delete(test)
+    db.session.commit()
+
+    return redirect(url_for("laboratory"))
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
