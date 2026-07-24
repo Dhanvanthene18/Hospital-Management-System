@@ -450,6 +450,36 @@ def add_lab_test():
         patients=patients,
         doctors=doctors
     )
+@app.route("/edit_lab_test/<int:id>", methods=["GET", "POST"])
+def edit_lab_test(id):
+
+    test = Laboratory.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        test.test_id = request.form["test_id"]
+        test.patient_name = request.form["patient_name"]
+        test.doctor_name = request.form["doctor_name"]
+        test.test_name = request.form["test_name"]
+        test.test_date = datetime.strptime(
+            request.form["test_date"], "%Y-%m-%d"
+        ).date()
+        test.result = request.form["result"]
+        test.status = request.form["status"]
+
+        db.session.commit()
+
+        return redirect(url_for("laboratory"))
+
+    patients = Patient.query.all()
+    doctors = Doctor.query.all()
+
+    return render_template(
+        "edit_lab_test.html",
+        test=test,
+        patients=patients,
+        doctors=doctors
+    )
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
