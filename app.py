@@ -1,9 +1,9 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
 app = Flask(__name__)
-
+app.secret_key = "hospital_secret_key"
 # Database Configuration
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:DG%401847@localhost/hospital_db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -92,22 +92,22 @@ class Laboratory(db.Model):
     test_date = db.Column(db.Date, nullable=False)
     result = db.Column(db.Text)
     status = db.Column(db.String(20))
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(20), nullable=False)
 
 # ---------------- Routes ----------------
-
 @app.route("/")
 def home():
 
-    total_patients = Patient.query.count()
-    total_doctors = Doctor.query.count()
+    if "user" not in session:
+        return redirect(url_for("login"))
 
-    return render_template(
-        "index.html",
-        total_patients=total_patients,
-        total_doctors=total_doctors
-    )
-from flask import Flask, render_template, request, redirect, url_for
-from datetime import datetime
+    return render_template("index.html")
 @app.route("/patients/add", methods=["GET", "POST"])
 def add_patient():
 
@@ -523,7 +523,6 @@ def logout():
     flash("Logged out successfully.", "info")
 
     return redirect(url_for("login"))
-
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
