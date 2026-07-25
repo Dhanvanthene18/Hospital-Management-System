@@ -515,6 +515,14 @@ def login():
             flash("Invalid Username or Password!", "danger")
 
     return render_template("login.html")
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    flash("Logged out successfully.", "info")
+
+    return redirect(url_for("login"))
 
 # ---------------- Run App ----------------
 
