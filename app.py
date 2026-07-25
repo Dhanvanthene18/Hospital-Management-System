@@ -489,6 +489,33 @@ def delete_lab_test(id):
     db.session.commit()
 
     return redirect(url_for("laboratory"))
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user = User.query.filter_by(
+            username=username,
+            password=password
+        ).first()
+
+        if user:
+
+            session["user"] = user.username
+            session["role"] = user.role
+
+            flash("Login Successful!", "success")
+
+            return redirect(url_for("home"))
+
+        else:
+            flash("Invalid Username or Password!", "danger")
+
+    return render_template("login.html")
+
 # ---------------- Run App ----------------
 
 if __name__ == "__main__":
