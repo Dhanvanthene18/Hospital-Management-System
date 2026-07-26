@@ -123,6 +123,7 @@ class User(db.Model):
 
 # ---------------- Routes ----------------
 @app.route("/")
+@role_required("Admin", "Doctor", "Receptionist")
 def home():
 
     if "user" not in session:
@@ -158,10 +159,40 @@ def add_patient():
     return render_template("add_patient.html")
 
 @app.route("/patients")
+@role_required("Admin", "Receptionist")
 def patients():
     patients = Patient.query.all()      # Step 1
     return render_template("patients.html", patients=patients)   # Step 2
+@app.route("/patients/add", methods=["GET", "POST"])
+@role_required("Admin", "Receptionist")
+def add_patient():
+
+    if request.method == "POST":
+
+        patient = Patient(
+            patient_id=request.form["patient_id"],
+            name=request.form["name"],
+            age=request.form["age"],
+            gender=request.form["gender"],
+            phone=request.form["phone"],
+            address=request.form["address"],
+            blood_group=request.form["blood_group"],
+            disease=request.form["disease"],
+            doctor=request.form["doctor"],
+            admission_date=datetime.strptime(
+                request.form["admission_date"], "%Y-%m-%d"
+            ),
+            status=request.form["status"]
+        )
+
+        db.session.add(patient)
+        db.session.commit()
+
+        return redirect(url_for("patients"))
+
+    return render_template("add_patient.html")
 @app.route("/edit_patient/<int:id>", methods=["GET", "POST"])
+@role_required("Admin", "Receptionist")
 def edit_patient(id):
     patient = Patient.query.get_or_404(id)
 
@@ -189,6 +220,7 @@ def edit_patient(id):
 
     return render_template("edit_patient.html", patient=patient)
 @app.route("/delete_patient/<int:id>")
+@role_required("Admin", "Receptionist")
 def delete_patient(id):
 
     patient = Patient.query.get_or_404(id)
@@ -198,6 +230,7 @@ def delete_patient(id):
 
     return redirect(url_for("patients"))
 @app.route("/doctors")
+@role_required("Admin")
 def doctors():
 
     doctors = Doctor.query.all()
@@ -209,6 +242,7 @@ def doctors():
 from flask import request, redirect, url_for
 
 @app.route("/add_doctor", methods=["GET", "POST"])
+@role_required("Admin")
 def add_doctor():
 
     if request.method == "POST":
@@ -234,8 +268,8 @@ def add_doctor():
 
     return render_template("add_doctor.html")
 @app.route("/edit_doctor/<int:id>", methods=["GET", "POST"])
+@role_required("Admin")
 def edit_doctor(id):
-
     doctor = Doctor.query.get_or_404(id)
 
     if request.method == "POST":
@@ -259,6 +293,7 @@ def edit_doctor(id):
         doctor=doctor
     )
 @app.route("/delete_doctor/<int:id>")
+@role_required("Admin")
 def delete_doctor(id):
 
     doctor = Doctor.query.get_or_404(id)
@@ -268,6 +303,7 @@ def delete_doctor(id):
 
     return redirect(url_for("doctors"))
 @app.route("/appointments")
+@role_required("Admin", "Doctor", "Receptionist")
 def appointments():
 
     appointments = Appointment.query.all()
@@ -279,6 +315,7 @@ def appointments():
 from datetime import datetime
 
 @app.route("/appointments/add", methods=["GET", "POST"])
+@role_required("Admin", "Doctor", "Receptionist")
 def add_appointment():
 
     if request.method == "POST":
@@ -306,8 +343,8 @@ def add_appointment():
         doctors=doctors
     )
 @app.route("/appointments/edit/<int:id>", methods=["GET", "POST"])
+@role_required("Admin", "Doctor", "Receptionist")
 def edit_appointment(id):
-
     appointment = Appointment.query.get_or_404(id)
 
     if request.method == "POST":
@@ -331,6 +368,7 @@ def edit_appointment(id):
         appointment=appointment
     )
 @app.route("/delete_appointment/<int:id>")
+@role_required("Admin", "Doctor", "Receptionist")
 def delete_appointment(id):
     appointment = Appointment.query.get_or_404(id)
 
@@ -339,6 +377,7 @@ def delete_appointment(id):
 
     return redirect(url_for("appointments"))
 @app.route("/billing")
+@role_required("Admin", "Receptionist")
 def billing():
     bills = Billing.query.all()
 
@@ -347,6 +386,7 @@ def billing():
         bills=bills
     )
 @app.route("/add_bill", methods=["GET", "POST"])
+@role_required("Admin", "Receptionist")
 def add_bill():
 
     patients = Patient.query.all()
@@ -363,6 +403,7 @@ def add_bill():
         doctors=doctors
     )
 @app.route("/pharmacy")
+@role_required("Admin")
 def pharmacy():
 
     medicines = Pharmacy.query.all()
@@ -372,6 +413,7 @@ def pharmacy():
         medicines=medicines
     )
 @app.route("/add_medicine", methods=["GET", "POST"])
+@role_required("Admin")
 def add_medicine():
 
     if request.method == "POST":
@@ -396,6 +438,7 @@ def add_medicine():
 
     return render_template("add_medicine.html")
 @app.route("/edit_medicine/<int:id>", methods=["GET", "POST"])
+@role_required("Admin")
 def edit_medicine(id):
 
     medicine = Pharmacy.query.get_or_404(id)
@@ -421,8 +464,8 @@ def edit_medicine(id):
         medicine=medicine
     )
 @app.route("/delete_medicine/<int:id>")
+@role_required("Admin")
 def delete_medicine(id):
-
     medicine = Pharmacy.query.get_or_404(id)
 
     db.session.delete(medicine)
@@ -430,6 +473,7 @@ def delete_medicine(id):
 
     return redirect(url_for("pharmacy"))
 @app.route("/laboratory")
+@role_required("Admin", "Doctor")
 def laboratory():
 
     tests = Laboratory.query.all()
@@ -441,6 +485,7 @@ def laboratory():
 from datetime import datetime
 
 @app.route("/add_lab_test", methods=["GET", "POST"])
+@role_required("Admin", "Doctor")
 def add_lab_test():
 
     if request.method == "POST":
@@ -472,6 +517,7 @@ def add_lab_test():
         doctors=doctors
     )
 @app.route("/edit_lab_test/<int:id>", methods=["GET", "POST"])
+@role_required("Admin", "Doctor")
 def edit_lab_test(id):
 
     test = Laboratory.query.get_or_404(id)
@@ -502,8 +548,8 @@ def edit_lab_test(id):
         doctors=doctors
     )
 @app.route("/delete_lab_test/<int:id>")
+@role_required("Admin", "Doctor")
 def delete_lab_test(id):
-
     test = Laboratory.query.get_or_404(id)
 
     db.session.delete(test)
@@ -537,8 +583,8 @@ def login():
 
     return render_template("login.html")
 @app.route("/logout")
+@role_required("Admin", "Doctor", "Receptionist")
 def logout():
-
     session.clear()
 
     flash("Logged out successfully.", "info")
