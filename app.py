@@ -2,6 +2,27 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
+# ---------------- Role Based Authentication ----------------
+from functools import wraps
+
+def role_required(*roles):
+
+    def decorator(f):
+
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+
+            if "user" not in session:
+                return redirect(url_for("login"))
+
+            if session.get("role") not in roles:
+                return render_template("403.html")
+
+            return f(*args, **kwargs)
+
+        return decorated_function
+
+    return decorator
 app = Flask(__name__)
 app.secret_key = "hospital_secret_key"
 # Database Configuration
