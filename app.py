@@ -375,6 +375,9 @@ def add_bill():
         patients=patients,
         doctors=doctors
     )
+@app.route("/download_bill/<int:id>")
+def download_bill(id):
+    pass
 @app.route("/pharmacy")
 @role_required("Admin")
 def pharmacy():
