@@ -8,8 +8,8 @@
     <h1>Billing</h1>
 
     <a href="{{ url_for('add_bill') }}" class="btn btn-primary">
-        + Add New Bill
-    </a>
+    + Add New Bill
+</a>
 </div>
 
 <div class="card shadow-sm">
@@ -48,6 +48,9 @@
                 <td>
                     <a href="#" class="btn btn-warning btn-sm">Edit</a>
                     <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{{ url_for('download_bill', id=bill.id) }}"
+                        class="btn btn-primary btn-sm">
+                        <i class="bi bi-file-earmark-pdf"></i> PDF</a>
                 </td>
             </tr>
 
