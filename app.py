@@ -130,33 +130,6 @@ def home():
         return redirect(url_for("login"))
 
     return render_template("index.html")
-@app.route("/patients/add", methods=["GET", "POST"])
-def add_patient():
-
-    if request.method == "POST":
-
-        patient = Patient(
-            patient_id=request.form["patient_id"],
-            name=request.form["name"],
-            age=request.form["age"],
-            gender=request.form["gender"],
-            phone=request.form["phone"],
-            address=request.form["address"],
-            blood_group=request.form["blood_group"],
-            disease=request.form["disease"],
-            doctor=request.form["doctor"],
-            admission_date=datetime.strptime(
-                request.form["admission_date"], "%Y-%m-%d"
-            ),
-            status=request.form["status"]
-        )
-
-        db.session.add(patient)
-        db.session.commit()
-
-        return redirect(url_for("patients"))
-
-    return render_template("add_patient.html")
 
 @app.route("/patients")
 @role_required("Admin", "Receptionist")
