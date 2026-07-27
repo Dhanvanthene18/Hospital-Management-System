@@ -2,6 +2,10 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+from flask import send_file
+import os
 # ---------------- Role Based Authentication ----------------
 from functools import wraps
 
