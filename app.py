@@ -370,7 +370,20 @@ def add_bill():
     doctors = Doctor.query.all()
 
     if request.method == "POST":
-        # save bill code
+
+        bill = Billing(
+            bill_no=request.form["bill_no"],
+            patient_name=request.form["patient_name"],
+            doctor_name=request.form["doctor_name"],
+            consultation_fee=float(request.form["consultation_fee"]),
+            medicine_charge=float(request.form["medicine_charge"]),
+            lab_charge=float(request.form["lab_charge"]),
+            total_amount=float(request.form["total_amount"]),
+            payment_status=request.form["payment_status"]
+        )
+
+        db.session.add(bill)
+        db.session.commit()
 
         return redirect(url_for("billing"))
 
@@ -381,7 +394,54 @@ def add_bill():
     )
 @app.route("/download_bill/<int:id>")
 def download_bill(id):
-    pass
+
+    bill = Billing.query.get_or_404(id)
+
+    filename = f"Bill_{bill.bill_no}.pdf"
+
+    doc = SimpleDocTemplate(filename)
+
+    styles = getSampleStyleSheet()
+
+    story = []
+
+    story.append(Paragraph("<b>HOSPITAL MANAGEMENT SYSTEM</b>", styles["Title"]))
+    story.append(Paragraph("Hospital Bill", styles["Heading2"]))
+    story.append(Paragraph("<br/><br/>", styles["Normal"]))
+
+    story.append(Paragraph(f"<b>Bill Number:</b> {bill.bill_no}", styles["Normal"]))
+    story.append(Paragraph(f"<b>Patient Name:</b> {bill.patient_name}", styles["Normal"]))
+    story.append(Paragraph(f"<b>Doctor Name:</b> {bill.doctor_name}", styles["Normal"]))
+    story.append(Paragraph("<br/>", styles["Normal"]))
+
+    story.append(Paragraph(f"Consultation Fee : £{bill.consultation_fee}", styles["Normal"]))
+    story.append(Paragraph(f"Medicine Charge : £{bill.medicine_charge}", styles["Normal"]))
+    story.append(Paragraph(f"Lab Charge : £{bill.lab_charge}", styles["Normal"]))
+    story.append(Paragraph("<br/>", styles["Normal"]))
+
+    story.append(Paragraph(
+        f"<b>Total Amount : £{bill.total_amount}</b>",
+        styles["Heading2"]
+    ))
+
+    story.append(Paragraph(
+        f"Payment Status : {bill.payment_status}",
+        styles["Normal"]
+    ))
+
+    story.append(Paragraph("<br/><br/>", styles["Normal"]))
+
+    story.append(Paragraph(
+        "Thank you for choosing our Hospital.",
+        styles["Italic"]
+    ))
+
+    doc.build(story)
+
+    return send_file(
+        filename,
+        as_attachment=True
+    )
 @app.route("/pharmacy")
 @role_required("Admin")
 def pharmacy():
